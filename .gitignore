@@ -216,3 +216,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# macOS generated files
+.DS_Store
+**/.DS_Store
+__MACOSX/
+
+# Windows generated files
+Thumbs.db
+Desktop.ini
+
+# Additional temporary files
+*.tmp
+*.temp

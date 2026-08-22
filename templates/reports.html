@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test Reports</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <strong>Test Report Portal</strong>
+  <span>{{ customer_name }}</span>
+  <a href="{{ url_for('logout') }}">Logout</a>
+</header>
+
+<main>
+  <h1>Test Reports</h1>
+  <p class="muted">Search the structured report metadata. The original Excel is kept separately for download.</p>
+
+  <form class="search" method="get">
+    <div>
+      <label>I-QUBE / Recipe</label>
+      <select name="iqube">
+        <option value="">All I-QUBEs</option>
+        {% for item in iqubes %}
+          <option value="{{ item['iqube'] }}" {% if filters.iqube == item['iqube'] %}selected{% endif %}>
+            {{ item['iqube'] }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label>Date</label>
+      <input type="date" name="date" value="{{ filters.date }}">
+    </div>
+    <div>
+      <label>Serial Number</label>
+      <input name="serial" value="{{ filters.serial }}" placeholder="e.g. 0008">
+    </div>
+    <button type="submit">Search</button>
+    <a class="clear" href="{{ url_for('reports') }}">Clear</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>I-QUBE</th>
+        <th>Date</th>
+        <th>Serial Number</th>
+        <th>Result</th>
+        <th>Original Report</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in reports %}
+      <tr>
+        <td>{{ report['iqube'] }}</td>
+        <td>{{ report['report_date'] }}</td>
+        <td>{{ report['serial_number'] }}</td>
+        <td class="{{ 'pass' if report['result'] == 'PASS' else 'fail' }}">{{ report['result'] }}</td>
+        <td><a href="{{ url_for('download', report_id=report['id']) }}">Download Excel</a></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="empty">No reports found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p class="muted">{{ reports|length }} report(s) found.</p>
+</main>
+</body>
+</html>
