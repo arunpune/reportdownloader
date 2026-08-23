@@ -1,49 +1,532 @@
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f5f7fa;
-  color: #17202a;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f7fa;
+    color: #17202a;
 }
-main { max-width: 1180px; margin: 42px auto; padding: 0 28px; }
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
 .topbar {
-  height: 64px; background: #fff; border-bottom: 1px solid #ddd;
-  display: flex; align-items: center; gap: 24px; padding: 0 28px;
+    min-height: 74px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 42px;
 }
-.topbar strong { margin-right: auto; }
-.topbar a, a { color: #145bd7; text-decoration: none; font-weight: 600; }
-h1 { font-size: 36px; margin-bottom: 8px; }
-.muted { color: #687386; }
-.login-card {
-  max-width: 440px; background: white; padding: 36px; border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+
+.topbar strong {
+    font-size: 24px;
 }
-label { display:block; font-weight: 700; margin: 16px 0 7px; }
-input, select {
-  width: 100%; padding: 12px; border: 1px solid #cbd3dc; border-radius: 8px;
-  background: white; font-size: 15px;
+
+.user-area {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
-button {
-  margin-top: 20px; padding: 12px 20px; border: 0; border-radius: 8px;
-  background: #26343d; color: white; font-weight: 700; cursor: pointer;
+
+.topbar a,
+a {
+    color: #145bd7;
+    text-decoration: none;
+    font-weight: 600;
 }
+
+.topbar a {
+    margin-left: 18px;
+}
+
+
+/* =========================================================
+   MAIN PAGE
+   ========================================================= */
+
+main {
+    max-width: 1450px;
+    margin: 28px auto;
+    padding: 0 42px;
+}
+
+.subtitle {
+    color: #687386;
+    font-size: 17px;
+    margin: 0 0 18px 0;
+}
+
+
+/* =========================================================
+   INFORMATION BOX
+   ========================================================= */
+
+.info-box {
+    background: #eef5ff;
+    border: 1px solid #bcd5ff;
+    border-radius: 9px;
+
+    min-height: 66px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+    gap: 14px;
+
+    color: #315987;
+    font-size: 16px;
+}
+
+.info-icon {
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+
+    background: #377bd3;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   DATE HEADING
+   ========================================================= */
+
+.date-heading {
+    font-size: 34px;
+    margin: 26px 0 20px 0;
+}
+
+
+/* =========================================================
+   SEARCH AREA
+   ========================================================= */
+
 .search {
-  background: white; border: 1px solid #ddd; border-radius: 14px;
-  padding: 20px; display: grid; grid-template-columns: 2fr 1fr 1fr auto auto;
-  gap: 14px; align-items: end; margin: 28px 0;
+    width: 100%;
+
+    background: white;
+    border: 1px solid #d8dde3;
+    border-radius: 14px;
+
+    padding: 22px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, 1.5fr)
+        minmax(220px, 1fr)
+        minmax(260px, 1.5fr)
+        auto
+        auto;
+
+    gap: 18px;
+
+    align-items: end;
+
+    margin: 0 0 26px 0;
 }
-.search label { margin-top: 0; }
-.search button { margin: 0; }
-.clear { align-self: center; margin-top: 20px; }
+
+.search-field {
+    min-width: 0;
+}
+
+.search-field label {
+    display: block;
+
+    font-weight: 700;
+    font-size: 16px;
+
+    margin: 0 0 8px 0;
+}
+
+.search-field input,
+.search-field select {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 13px;
+
+    border: 1px solid #cbd3dc;
+    border-radius: 8px;
+
+    background: white;
+
+    font-size: 16px;
+    color: #17202a;
+}
+
+.search-field input:focus,
+.search-field select:focus {
+    outline: none;
+    border-color: #377bd3;
+}
+
+
+/* =========================================================
+   SEARCH BUTTON
+   ========================================================= */
+
+.search-button {
+    height: 46px;
+
+    margin: 0;
+
+    padding: 0 22px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: #26343d;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.search-button:hover {
+    background: #1c272e;
+}
+
+
+/* =========================================================
+   CLEAR BUTTON
+   ========================================================= */
+
+.clear-button {
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 6px;
+
+    color: #145bd7;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   REPORT COUNT
+   ========================================================= */
+
+.report-count {
+    color: #687386;
+    font-size: 17px;
+
+    margin: 0 0 14px 0;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+
+    background: white;
+
+    border: 1px solid #d8dde3;
+    border-radius: 12px;
+}
+
 table {
-  width: 100%; border-collapse: collapse; background: white; border: 1px solid #ddd;
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: white;
+
+    table-layout: fixed;
 }
-th, td { padding: 18px 20px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-th { font-size: 16px; }
-.pass { color: #16833b; font-weight: 800; }
-.fail { color: #cf2e2e; font-weight: 800; }
-.error { background: #fff0f0; color: #b42318; padding: 10px; border-radius: 8px; }
-.empty { text-align:center; color:#687386; }
-@media (max-width: 850px) {
-  .search { grid-template-columns: 1fr; }
+
+th,
+td {
+    padding: 18px 20px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 16px;
+}
+
+th {
+    background: #f8fafc;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Column widths */
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 18%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 14%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 14%;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 36%;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 18%;
+}
+
+
+/* =========================================================
+   FILE NAME
+   ========================================================= */
+
+.filename {
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   DOWNLOAD BUTTON
+   ========================================================= */
+
+.download-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 9px 14px;
+
+    border: 1px solid #8ab8ff;
+    border-radius: 8px;
+
+    background: #eef5ff;
+
+    color: #145bd7;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.download-button:hover {
+    background: #e1edff;
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 24px;
+
+    margin: 24px 0;
+}
+
+.pagination a {
+    padding: 9px 15px;
+
+    border: 1px solid #bcd5ff;
+    border-radius: 7px;
+
+    background: white;
+}
+
+.pagination span {
+    color: #687386;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty {
+    background: white;
+
+    border: 1px solid #ddd;
+    border-radius: 12px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    color: #687386;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    text-align: center;
+
+    color: #687386;
+
+    margin: 24px 0 10px 0;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.login-card {
+    max-width: 440px;
+
+    background: white;
+
+    padding: 36px;
+
+    border-radius: 16px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.login-card label {
+    display: block;
+
+    font-weight: 700;
+
+    margin: 16px 0 7px;
+}
+
+.login-card input {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #cbd3dc;
+
+    border-radius: 8px;
+
+    background: white;
+
+    font-size: 15px;
+}
+
+.login-card button {
+    margin-top: 20px;
+
+    padding: 12px 20px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: #26343d;
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error {
+    background: #fff0f0;
+
+    color: #b42318;
+
+    padding: 10px;
+
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .search {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .search-button,
+    .clear-button {
+        width: fit-content;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    main {
+        padding: 0 18px;
+    }
+
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .user-area {
+        font-size: 13px;
+    }
+
+    .search {
+        grid-template-columns: 1fr;
+    }
+
+    .date-heading {
+        font-size: 28px;
+    }
+
+    table {
+        min-width: 900px;
+    }
 }
