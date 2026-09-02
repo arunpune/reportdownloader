@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-4">
+  <div>
+    <h1 class="fw-bold mb-1">Users</h1>
+    <p class="text-secondary mb-0">Create users, change access status and reset passwords.</p>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('admin.new_user') }}">Create User</a>
+</div>
+
+<div class="card border-0 shadow-sm">
+<div class="table-responsive">
+<table class="table table-hover align-middle mb-0">
+<thead class="table-light"><tr><th>Email</th><th>Company</th><th>Role</th><th>Status</th><th class="text-end">Actions</th></tr></thead>
+<tbody>
+{% for user in users %}
+<tr>
+  <td>{{ user.email }}</td>
+  <td>{{ user.company.name if user.company else 'All companies' }}</td>
+  <td><span class="badge text-bg-light border">{{ user.role }}</span></td>
+  <td>
+    {% if user.is_active %}<span class="badge text-bg-success">Active</span>{% else %}<span class="badge text-bg-secondary">Disabled</span>{% endif %}
+  </td>
+  <td class="text-end">
+    {% if user.id != session.get('user_id') and not (user.role == 'SUPER_ADMIN' and session.get('role') != 'SUPER_ADMIN') %}
+    <form class="d-inline" method="post" action="{{ url_for('admin.toggle_user', user_id=user.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn btn-sm btn-outline-secondary">Enable/Disable</button>
+    </form>
+    <form class="d-inline" method="post" action="{{ url_for('admin.reset_password', user_id=user.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn btn-sm btn-outline-warning">Reset Password</button>
+    </form>
+    {% endif %}
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+{% endblock %}

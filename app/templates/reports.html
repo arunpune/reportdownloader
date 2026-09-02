@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<div class="reports-page-header">
+
+    <h1 class="reports-title">
+        Test Reports
+    </h1>
+
+</div>
+
+
+<!-- =========================================================
+     PROCESSING INFORMATION
+========================================================= -->
+
+<div class="reports-processing-info">
+
+    <div>
+        All reports for {{ report_date.strftime('%d %B %Y') }} have been processed.
+    </div>
+
+    <div>
+        Today's report will be processed after 24 hours.
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     FILTERS
+========================================================= -->
+
+<div class="report-filters">
+
+    <form
+        method="get"
+        class="row g-3 align-items-end"
+    >
+
+        <!-- Recipe -->
+        <div class="col-xl-4 col-lg-4 col-md-6">
+
+            <label class="form-label fw-semibold">
+                Recipe Name
+            </label>
+
+            <select
+                class="form-select report-input"
+                name="recipe"
+            >
+
+                <option value="">
+                    All recipes
+                </option>
+
+                {% for recipe in recipes %}
+
+                <option
+                    value="{{ recipe.id }}"
+                    {% if filters.recipe == recipe.id|string %}
+                        selected
+                    {% endif %}
+                >
+                    {{ recipe.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <!-- Date -->
+
+        <div class="col-xl-3 col-lg-3 col-md-6">
+
+            <label class="form-label fw-semibold">
+                Date
+            </label>
+
+            <input
+                class="form-control report-input"
+                type="date"
+                name="date"
+                value="{{ filters.date }}"
+            >
+
+        </div>
+
+
+        <!-- Serial Number -->
+
+        <div class="col-xl-3 col-lg-3 col-md-6">
+
+            <label class="form-label fw-semibold">
+                Part/Serial Number
+            </label>
+
+            <input
+                class="form-control report-input"
+                type="text"
+                name="serial"
+                value="{{ filters.serial }}"
+                placeholder="e.g. 13"
+            >
+
+        </div>
+
+
+        <!-- Buttons -->
+
+        <div class="col-xl-2 col-lg-2 col-md-6">
+
+            <div class="d-flex gap-3 align-items-end">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary report-search-btn"
+                >
+                    Search
+                </button>
+
+                <a
+                    class="btn btn-outline-secondary report-clear-btn"
+                    href="{{ url_for('reports.list_reports') }}"
+                >
+                    Clear
+                </a>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- =========================================================
+     REPORT SUMMARY
+========================================================= -->
+
+<div class="report-summary">
+
+    <div class="reports-heading">
+        {{ reports_heading }}
+    </div>
+
+    <span class="report-count">
+        {{ total_reports }} report(s)
+    </span>
+
+</div>
+
+
+<!-- =========================================================
+     REPORT TABLE
+========================================================= -->
+
+<div class="report-table-wrapper">
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Recipe Name
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Time
+                    </th>
+
+                    <th>
+                        Part/Serial Number
+                    </th>
+
+                    <th>
+                        File Name
+                    </th>
+
+                    <th class="text-end">
+                        Download
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for report in reports %}
+
+                <tr>
+
+                    <!-- Recipe -->
+
+                    <td class="fw-semibold">
+                        {{ report.recipe_name }}
+                    </td>
+
+
+                    <!-- Date -->
+
+                    <td>
+                        {{ report.report_date.strftime('%Y-%m-%d') }}
+                    </td>
+
+
+                    <!-- Time -->
+
+                    <td>
+
+                        {% if report.report_time %}
+
+                            {{ report.report_time.strftime('%H:%M:%S') }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Serial Number -->
+
+                    <td>
+
+                        <span class="fw-semibold">
+                            {{ report.serial_number }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- Filename -->
+
+                    <td class="filename-cell">
+                        {{ report.original_filename }}
+                    </td>
+
+
+                    <!-- Download -->
+
+                    <td class="text-end">
+
+                        <a
+                            class="btn btn-sm btn-outline-primary download-btn"
+                            href="{{ url_for(
+                                'reports.download',
+                                report_id=report.id
+                            ) }}"
+                        >
+                            ↓ Download Excel
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+            {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="text-center text-secondary py-5"
+                    >
+                        No reports found.
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGINATION
+========================================================= -->
+
+<div class="report-pagination">
+
+    <!-- Page information -->
+
+    <div class="page-info">
+
+        Page {{ page }} of {{ total_pages }}
+
+    </div>
+
+
+    <!-- Pagination controls -->
+
+    <nav>
+
+        <ul class="pagination mb-0">
+
+            <!-- Previous -->
+
+            <li
+                class="page-item
+                {% if page <= 1 %}disabled{% endif %}"
+            >
+
+                <a
+                    class="page-link"
+                    href="{{ url_for(
+                        'reports.list_reports',
+                        recipe=filters.recipe,
+                        date=filters.date,
+                        serial=filters.serial,
+                        page=page-1
+                    ) }}"
+                >
+                    Previous
+                </a>
+
+            </li>
+
+
+            <!-- Page numbers -->
+
+            {% for p in range(1, total_pages + 1) %}
+
+                {% if
+                    p <= 3
+                    or p > total_pages - 2
+                    or (p >= page - 1 and p <= page + 1)
+                %}
+
+                    <li
+                        class="page-item
+                        {% if p == page %}active{% endif %}"
+                    >
+
+                        <a
+                            class="page-link"
+                            href="{{ url_for(
+                                'reports.list_reports',
+                                recipe=filters.recipe,
+                                date=filters.date,
+                                serial=filters.serial,
+                                page=p
+                            ) }}"
+                        >
+                            {{ p }}
+                        </a>
+
+                    </li>
+
+
+                {% elif p == 4 or p == total_pages - 2 %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+                            …
+                        </span>
+
+                    </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+
+            <!-- Next -->
+
+            <li
+                class="page-item
+                {% if page >= total_pages %}disabled{% endif %}"
+            >
+
+                <a
+                    class="page-link"
+                    href="{{ url_for(
+                        'reports.list_reports',
+                        recipe=filters.recipe,
+                        date=filters.date,
+                        serial=filters.serial,
+                        page=page+1
+                    ) }}"
+                >
+                    Next
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</div>
+
+{% endblock %}

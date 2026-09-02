@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-7">
+<div class="card border-0 shadow-sm">
+<div class="card-body p-4">
+<h2 class="fw-bold mb-4">Create User</h2>
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="mb-3"><label class="form-label fw-semibold">Email</label><input class="form-control" type="email" name="email" required></div>
+{% if session.get('role') == 'SUPER_ADMIN' %}
+<div class="mb-3">
+<label class="form-label fw-semibold">Company</label>
+<select class="form-select" name="company_id">
+<option value="">All companies (Super Admin)</option>
+{% for company in companies %}<option value="{{ company.id }}">{{ company.name }} ({{ company.code }})</option>{% endfor %}
+</select>
+</div>
+<div class="mb-3">
+<label class="form-label fw-semibold">Role</label>
+<select class="form-select" name="role">
+<option value="COMPANY_USER">Company User</option>
+<option value="COMPANY_ADMIN">Company Admin</option>
+</select>
+</div>
+{% else %}
+<input type="hidden" name="role" value="COMPANY_USER">
+<p class="text-secondary">This user will be created under your company as a Company User.</p>
+{% endif %}
+<div class="mb-4"><label class="form-label fw-semibold">Temporary Password</label><input class="form-control" type="text" name="password" placeholder="Leave blank to generate one"></div>
+<button class="btn btn-primary">Create User</button>
+<a class="btn btn-outline-secondary" href="{{ url_for('admin.users') }}">Cancel</a>
+</form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

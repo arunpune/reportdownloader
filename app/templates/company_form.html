@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-lg-6">
+<div class="card border-0 shadow-sm"><div class="card-body p-4">
+<h2 class="fw-bold mb-4">Create Company</h2>
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="mb-3"><label class="form-label fw-semibold">Company Name</label><input class="form-control" name="name" required></div>
+<div class="mb-4"><label class="form-label fw-semibold">Company Code</label><input class="form-control" name="code" placeholder="TVS" required></div>
+<button class="btn btn-primary">Create Company</button>
+<a class="btn btn-outline-secondary" href="{{ url_for('admin.companies') }}">Cancel</a>
+</form>
+</div></div></div></div>
+{% endblock %}
